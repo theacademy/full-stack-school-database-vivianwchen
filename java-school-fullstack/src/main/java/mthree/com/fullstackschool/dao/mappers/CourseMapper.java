@@ -15,8 +15,8 @@ public class CourseMapper implements RowMapper<Course> {
             course.setCourseDesc(rs.getString("courseDesc"));
             course.setCourseName(rs.getString("courseCode"));
             course.setTeacherId(rs.getInt("teacherId"));
-
             return course;
+
         //YOUR CODE ENDS HERE
     }
 }
