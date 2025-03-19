@@ -44,6 +44,9 @@ public class CourseDaoImplTests {
     @DisplayName("Get All Courses Test")
     public void getAllCoursesTest() {
         List<Course> newList = courseDao.getAllCourses();
+        for (Course crs : courseDao.getAllCourses()) {
+            System.out.println(crs);
+        }
         assertNotNull(newList);
         assertEquals(14, newList.size());
     }
@@ -67,6 +70,7 @@ public class CourseDaoImplTests {
         courseDao.updateCourse(course);
         List<Course> newList = courseDao.getAllCourses();
         assertNotNull(newList);
+
         int i = 0;
         for (Course crs : newList) {
             if(crs.getCourseName().contains("Fantasy Fictional Writing 444")) {
@@ -91,6 +95,7 @@ public class CourseDaoImplTests {
         String sql = "Select count(student_id) from course_student where course_id = 7";
         int studentCount = jdbcTemplate.queryForObject(sql, Integer.class);
         assertEquals(4, studentCount);
+        courseDao.deleteAllStudentsFromCourse(7);
         studentCount = jdbcTemplate.queryForObject(sql, Integer.class);
         assertEquals(0, studentCount);
     }

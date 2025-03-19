@@ -12,22 +12,33 @@ public class CourseServiceImpl implements CourseServiceInterface {
 
     //YOUR CODE STARTS HERE
 
+    private final CourseDao courseDao;
 
+    @Autowired
+    CourseServiceImpl(CourseDao courseDao) {
+        this.courseDao = courseDao;
+    }
 
     //YOUR CODE ENDS HERE
 
     public List<Course> getAllCourses() {
         //YOUR CODE STARTS HERE
 
-        return null;
+        return courseDao.getAllCourses();
 
         //YOUR CODE ENDS HERE
     }
 
     public Course getCourseById(int id) {
         //YOUR CODE STARTS HERE
-
-        return null;
+        Course course = null;
+        try{
+            course = courseDao.findCourseById(id);
+        }catch (DataAccessException e){
+            course.setCourseDesc("Course Not Found");
+            course.setCourseName("Course Not Found");
+        }
+        return course;
 
         //YOUR CODE ENDS HERE
     }
@@ -35,15 +46,29 @@ public class CourseServiceImpl implements CourseServiceInterface {
     public Course addNewCourse(Course course) {
         //YOUR CODE STARTS HERE
 
-        return null;
+        if (course.getCourseName().isEmpty() || course.getCourseDesc().isEmpty()) {
+            course.setCourseName("Name blank, course NOT added");
+            course.setCourseDesc("Description blank, course NOT added");
+        }
+        else {
+            course = courseDao.createNewCourse(course);
+        }
+        return course;
 
         //YOUR CODE ENDS HERE
     }
 
     public Course updateCourseData(int id, Course course) {
         //YOUR CODE STARTS HERE
-
-        return null;
+        if (id != course.getCourseId()){
+            course.setCourseName("IDs do not match, course not updated");
+            course.setCourseDesc("IDs do not match, course not updated");
+        }
+        else{
+            courseDao.updateCourse(course);
+            course = getCourseById(id);
+        }
+        return course;
 
         //YOUR CODE ENDS HERE
     }
@@ -51,7 +76,12 @@ public class CourseServiceImpl implements CourseServiceInterface {
     public void deleteCourseById(int id) {
         //YOUR CODE STARTS HERE
 
-
+        try {
+            courseDao.deleteCourse(id);
+            System.out.println("Course ID : " + id + " deleted");
+        }catch (DataAccessException e){
+            throw e;
+        }
 
         //YOUR CODE ENDS HERE
     }

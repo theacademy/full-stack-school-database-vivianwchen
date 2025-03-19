@@ -33,6 +33,9 @@ public class StudentDaoImplTests {
         student.setStudentLastName("New Student Last Name");
         studentDao.createNewStudent(student);
         List<Student> newList = studentDao.getAllStudents();
+        for (Student student1 : newList) {
+            System.out.println(student1);
+        }
         assertNotNull(newList);
         assertEquals(9, newList.size());
     }
@@ -78,6 +81,10 @@ public class StudentDaoImplTests {
     @Transactional
     public void deleteStudentTest() {
         //Delete student with id 8 as they are not enrolled in any classes
+        List<Student> list = studentDao.getAllStudents();
+        for (Student student : list) {
+            System.out.println(student);
+        }
         studentDao.deleteStudent(8);
         assertNotNull(studentDao.getAllStudents());
         assertEquals(8, studentDao.getAllStudents().size());
